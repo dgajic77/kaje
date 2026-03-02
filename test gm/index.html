@@ -1,0 +1,1992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gajic Motorsport</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --color-red: #c00000;
+            --color-yellow: #ffff00;
+            --font-heading: 'Rajdhani', sans-serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: #000;
+            color: #fff;
+            overflow-x: hidden;
+            line-height: 1.6;
+            position: relative;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            font-weight: 900;
+        }
+
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Global Background - Extends across entire site */
+        .global-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+        }
+
+        .global-bg-image {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+        }
+
+        .global-bg-image.active {
+            opacity: 1;
+        }
+
+        .global-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.7));
+            z-index: 1;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            background-color: transparent;
+        }
+
+        header.scrolled {
+            background-color: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 80px;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 900;
+            color: #fff;
+            text-decoration: none;
+            letter-spacing: 2px;
+            transition: color 0.3s;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-family: var(--font-heading);
+        }
+
+        .logo:hover {
+            color: var(--color-red);
+        }
+
+        nav {
+            display: flex;
+            gap: 32px;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+            position: relative;
+            font-size: 16px;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: var(--color-red);
+        }
+
+        nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: var(--color-red);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 28px;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .mobile-nav {
+            display: none;
+            background-color: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .mobile-nav.active {
+            display: block;
+        }
+
+        .mobile-nav-inner {
+            padding: 16px;
+        }
+
+        .mobile-nav a {
+            display: block;
+            padding: 12px 16px;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            transition: background-color 0.3s;
+        }
+
+        .mobile-nav a:hover,
+        .mobile-nav a.active {
+            background-color: var(--color-red);
+        }
+
+        /* Hero Section */
+        #home {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 0 24px;
+            max-width: 1152px;
+            margin: 0 auto;
+        }
+
+        .hero-title {
+            font-size: clamp(48px, 8vw, 96px);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 24px;
+        }
+
+        .hero-title .subtitle {
+            display: block;
+            color: var(--color-red);
+            font-size: clamp(56px, 10vw, 112px);
+        }
+
+        .hero-description {
+            font-size: clamp(18px, 3vw, 24px);
+            color: #d1d5db;
+            margin-bottom: 48px;
+            max-width: 768px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 16px 32px;
+            font-size: 18px;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: none;
+            font-family: var(--font-body);
+        }
+
+        .btn-primary {
+            background-color: var(--color-red);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background-color: #a00000;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(192, 0, 0, 0.4);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: #fff;
+            border: 2px solid #fff;
+        }
+
+        .btn-secondary:hover {
+            background-color: #fff;
+            color: #000;
+        }
+
+        .hero-indicators {
+            position: absolute;
+            bottom: 96px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 10;
+        }
+
+        .indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            padding: 0;
+        }
+
+        .indicator.active {
+            width: 32px;
+            border-radius: 4px;
+            background-color: var(--color-red);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 32px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            animation: bounce 2s infinite;
+            z-index: 10;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            50% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+        }
+
+        /* Section Styles */
+        section {
+            position: relative;
+            padding: 96px 0;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .section-title {
+            font-size: clamp(36px, 5vw, 60px);
+            font-weight: 900;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .section-title .highlight {
+            color: var(--color-red);
+        }
+
+        .section-divider {
+            width: 96px;
+            height: 4px;
+            background-color: var(--color-red);
+            margin: 0 auto 32px;
+        }
+
+        .section-description {
+            font-size: 20px;
+            color: #d1d5db;
+            text-align: center;
+            max-width: 672px;
+            margin: 0 auto 64px;
+        }
+
+        /* About Section */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 48px;
+            margin-bottom: 64px;
+        }
+
+        .about-text {
+            font-size: 18px;
+            color: #d1d5db;
+            line-height: 1.8;
+        }
+
+        .about-text p {
+            margin-bottom: 24px;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px;
+        }
+
+        .feature-card {
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 24px;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+            border-color: var(--color-red);
+            transform: translateY(-4px);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background-color: var(--color-red);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            font-size: 24px;
+        }
+
+        .feature-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .feature-description {
+            color: #9ca3af;
+            font-size: 16px;
+        }
+
+        /* Team Section */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 32px;
+        }
+
+        .team-card {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            background-color: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .team-card:hover {
+            border-color: var(--color-red);
+            transform: translateY(-8px);
+        }
+
+        .team-card-image-wrapper {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 3/4;
+            overflow: hidden;
+        }
+
+        .team-card-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .team-card:hover .team-card-image {
+            transform: scale(1.1);
+        }
+
+        .team-card-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, #000, rgba(0,0,0,0.5), transparent);
+        }
+
+        .team-card-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 24px;
+        }
+
+        .team-card-name {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .team-card-role {
+            color: var(--color-red);
+            font-weight: 600;
+        }
+
+        .team-card-plus {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 40px;
+            height: 40px;
+            background-color: var(--color-red);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 24px;
+            color: #fff;
+        }
+
+        .team-card:hover .team-card-plus {
+            opacity: 1;
+        }
+
+        /* Team Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background-color: #18181b;
+            border-radius: 16px;
+            max-width: 672px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-image {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+            border-radius: 16px 16px 0 0;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border: none;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            z-index: 10;
+        }
+
+        .modal-close:hover {
+            background-color: var(--color-red);
+        }
+
+        .modal-body {
+            padding: 32px;
+        }
+
+        .modal-name {
+            font-size: 36px;
+            font-weight: 900;
+            margin-bottom: 8px;
+        }
+
+        .modal-role {
+            color: var(--color-red);
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 24px;
+        }
+
+        .modal-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            padding: 16px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            margin-bottom: 24px;
+        }
+
+        .modal-stat-label {
+            color: #9ca3af;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .modal-stat-value {
+            color: #fff;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .modal-bio {
+            color: #d1d5db;
+            font-size: 18px;
+            line-height: 1.8;
+        }
+
+        /* Cars Section */
+        .cars-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 48px;
+        }
+
+        .car-card {
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .car-card:hover {
+            border-color: var(--color-red);
+            transform: translateY(-8px);
+        }
+
+        .car-image-wrapper {
+            position: relative;
+            aspect-ratio: 16/9;
+            background: linear-gradient(to bottom right, #111, #000);
+            overflow: hidden;
+        }
+
+        .car-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.7s;
+        }
+
+        .car-card:hover .car-image {
+            transform: scale(1.1);
+        }
+
+        .car-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .car-name-badge {
+            position: absolute;
+            bottom: 16px;
+            left: 16px;
+            right: 16px;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--color-red);
+            border-radius: 8px;
+            padding: 12px 24px;
+        }
+
+        .car-name {
+            font-size: 28px;
+            font-weight: 900;
+        }
+
+        .car-specs {
+            padding: 24px;
+        }
+
+        .specs-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--color-red);
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .spec-item {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 16px;
+            transition: all 0.3s;
+        }
+
+        .spec-item:hover {
+            border-color: var(--color-red);
+        }
+
+        .spec-label {
+            color: #9ca3af;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .spec-value {
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .spec-subvalue {
+            font-size: 14px;
+            color: #d1d5db;
+        }
+
+        /* Gallery Section */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 16px;
+        }
+
+        .gallery-item {
+            position: relative;
+            aspect-ratio: 1;
+            overflow: hidden;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-item-overlay {
+            position: absolute;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            transition: opacity 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gallery-item:hover .gallery-item-overlay {
+            opacity: 1;
+        }
+
+        .gallery-plus {
+            width: 48px;
+            height: 48px;
+            background-color: var(--color-red);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: #fff;
+            box-shadow: 0 0 20px rgba(255, 255, 0, 0.2);
+            border: 2px solid rgba(255, 255, 0, 0.3);
+        }
+
+        .btn-see-more {
+            margin-top: 48px;
+            text-align: center;
+        }
+
+        .btn-see-more button {
+            padding: 16px 32px;
+            background-color: transparent;
+            border: 2px solid var(--color-yellow);
+            color: var(--color-yellow);
+            font-size: 18px;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 0 20px rgba(255, 255, 0, 0.2);
+        }
+
+        .btn-see-more button:hover {
+            background-color: var(--color-yellow);
+            color: #000;
+            transform: translateY(-2px);
+        }
+
+        /* Lightbox */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 3000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox-image {
+            max-width: 85vw;
+            max-height: 85vh;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+        }
+
+        .lightbox-close,
+        .lightbox-prev,
+        .lightbox-next {
+            position: absolute;
+            width: 56px;
+            height: 56px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 0, 0.3);
+            border-radius: 50%;
+            color: #fff;
+            font-size: 32px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px rgba(255, 255, 0, 0.2);
+        }
+
+        .lightbox-close:hover,
+        .lightbox-prev:hover,
+        .lightbox-next:hover {
+            background-color: var(--color-red);
+            transform: scale(1.1);
+        }
+
+        .lightbox-close {
+            top: 16px;
+            right: 16px;
+        }
+
+        .lightbox-prev {
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .lightbox-next {
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .lightbox-counter {
+            position: absolute;
+            bottom: 32px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 0, 0.3);
+            box-shadow: 0 0 20px rgba(255, 255, 0, 0.2);
+        }
+
+        /* YouTube/Socials Section */
+        .socials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 48px;
+        }
+
+        .social-card {
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .social-card:hover {
+            border-color: var(--color-red);
+            transform: translateY(-8px);
+        }
+
+        .social-header {
+            padding: 24px;
+            background: linear-gradient(to right, rgba(192, 0, 0, 0.2), transparent);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .social-icon {
+            width: 64px;
+            height: 64px;
+            background-color: var(--color-red);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: transform 0.3s;
+        }
+
+        .social-link:hover .social-icon {
+            transform: scale(1.1);
+        }
+
+        .social-info h3 {
+            font-size: 24px;
+            font-weight: 700;
+            transition: color 0.3s;
+        }
+
+        .social-link:hover h3 {
+            color: var(--color-red);
+        }
+
+        .social-description {
+            color: #9ca3af;
+            margin-top: 4px;
+        }
+
+        .social-visit {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--color-red);
+            font-weight: 600;
+            margin-top: 16px;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .social-visit:hover {
+            color: var(--color-yellow);
+        }
+
+        .social-video {
+            padding: 24px;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 8px;
+            background-color: #000;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Contact Section */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 48px;
+        }
+
+        .contact-info-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: start;
+            gap: 16px;
+            padding: 24px;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            text-decoration: none;
+            color: #fff;
+            transition: all 0.3s;
+        }
+
+        .contact-item:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+            border-color: var(--color-red);
+        }
+
+        .contact-icon {
+            width: 48px;
+            height: 48px;
+            background-color: var(--color-red);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: transform 0.3s;
+        }
+
+        .contact-item:hover .contact-icon {
+            transform: scale(1.1);
+        }
+
+        .contact-item h3 {
+            font-weight: 700;
+            font-size: 18px;
+            margin-bottom: 4px;
+        }
+
+        .contact-item p {
+            color: #9ca3af;
+        }
+
+        .contact-form {
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 32px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .form-input,
+        .form-textarea {
+            width: 100%;
+            padding: 12px 16px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: #fff;
+            font-family: var(--font-body);
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .form-input::placeholder,
+        .form-textarea::placeholder {
+            color: #6b7280;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--color-red);
+            background-color: rgba(255, 255, 255, 0.08);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 16px 32px;
+            background-color: var(--color-red);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 0, 0.3);
+            font-size: 18px;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 0 20px rgba(255, 255, 0, 0.2);
+        }
+
+        .btn-submit:hover {
+            background-color: #a00000;
+            transform: translateY(-2px);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Footer */
+        footer {
+            background-color: rgba(0, 0, 0, 0.9);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 32px 0;
+            text-align: center;
+            color: #9ca3af;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* ===============================
+        SUPPORTERS – FREE LOGO WALL
+        =============================== */
+
+        #supporters {
+            padding: 120px 0;
+        }
+
+        .supporters-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            grid-template-rows: repeat(2, auto);
+            gap: 48px 32px;
+            align-items: center;
+            justify-items: center;
+        }
+
+        /* Anchor behaves like invisible wrapper */
+        .supporters-grid a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Base logo style */
+        .supporter-logo {
+            width: auto;
+            height: auto;
+            max-width: 100%;
+            object-fit: contain;
+            filter: grayscale(100%) brightness(0.9);
+            transition: transform 0.3s ease, filter 0.3s ease;
+        }
+
+        /* Hover effect */
+        .supporters-grid a:hover .supporter-logo {
+            filter: grayscale(0%) brightness(1);
+            transform: scale(1.08);
+        }
+
+        /* SIZE PRESETS */
+        .size-xs { max-height: 50px; }
+        .size-sm { max-height: 70px; }
+        .size-md { max-height: 90px; }
+        .size-lg { max-height: 120px; }
+        .size-xl { max-height: 1400px; }
+
+        /* Tablet */
+        @media (max-width: 1024px) {
+            .supporters-grid {
+                grid-template-columns: repeat(4, 1fr);
+                grid-template-rows: auto;
+            }
+        }
+
+        /* Mobile */
+        @media (max-width: 600px) {
+            .supporters-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 32px;
+            }
+        }
+
+        /* Responsive */
+        @media (min-width: 768px) {
+            .about-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .contact-grid {
+                grid-template-columns: 2fr 1fr;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 1024px) {
+            nav {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .cars-grid,
+            .socials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .specs-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cars-grid {
+                gap: 32px;
+            }
+
+            .car-card {
+                min-width: 0;
+            }
+        }
+
+        /* Utility Classes */
+        .hidden {
+            display: none !important;
+        }
+    </style>
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+
+</head>
+<body>
+    <!-- Global Background - Extends across entire site -->
+    <div class="global-background">
+        <img src="Slike/slika71.jpg" class="global-bg-image active" alt="Background 1">
+        <img src="Slike/slika59.jpg" class="global-bg-image" alt="Background 2">
+        <img src="Slike/slika69.jpg" class="global-bg-image" alt="Background 3">
+        <img src="Slike/slika11.jpg" class="global-bg-image" alt="Background 4">
+        <div class="global-overlay"></div>
+    </div>
+
+    <!-- Header -->
+    <header id="header">
+        <div class="header-container">
+            <button class="logo" onclick="scrollToSection('home')">GAJIC MOTORSPORT</button>
+            <nav id="desktopNav">
+                <a href="#home" class="nav-link active">Homeee</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#team" class="nav-link">Team</a>
+                <a href="#cars" class="nav-link">Cars</a>
+                <a href="#supporters" class="nav-link">Supporters</a>
+                <a href="#gallery" class="nav-link">Gallery</a>
+                <a href="#youtube" class="nav-link">Socials</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </nav>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+        </div>
+        <div class="mobile-nav" id="mobileNav">
+            <div class="mobile-nav-inner">
+                <a href="#home" class="mobile-nav-link active" onclick="toggleMobileMenu()">Home</a>
+                <a href="#about" class="mobile-nav-link" onclick="toggleMobileMenu()">About</a>
+                <a href="#team" class="mobile-nav-link" onclick="toggleMobileMenu()">Team</a>
+                <a href="#cars" class="mobile-nav-link" onclick="toggleMobileMenu()">Cars</a>
+                <a href="#supporters" class="mobile-nav-link" onclick="toggleMobileMenu()">Supporters</a>
+                <a href="#gallery" class="mobile-nav-link" onclick="toggleMobileMenu()">Gallery</a>
+                <a href="#youtube" class="mobile-nav-link" onclick="toggleMobileMenu()">Socials</a>
+                <a href="#contact" class="mobile-nav-link" onclick="toggleMobileMenu()">Contact</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home">
+        <div class="hero-content">
+            <h1 class="hero-title">
+                GAJIC
+                <span class="subtitle">MOTORSPORT</span>
+            </h1>
+
+            <p class="hero-description">
+                Racing excellence driven by precision engineering and unstoppable passion
+            </p>
+
+            <div class="hero-buttons">
+                <button class="btn btn-primary" onclick="scrollToSection('team')">Explore Our Team</button>
+                <a href="#youtube" class="btn btn-secondary">▶ Watch Videos</a>
+            </div>
+        </div>
+
+        <div class="hero-indicators">
+            <button class="indicator active" onclick="changeHeroImage(0)"></button>
+            <button class="indicator" onclick="changeHeroImage(1)"></button>
+            <button class="indicator" onclick="changeHeroImage(2)"></button>
+            <button class="indicator" onclick="changeHeroImage(3)"></button>
+        </div>
+
+        <div class="scroll-indicator" onclick="scrollToSection('about')">
+            <div style="font-size: 14px; font-weight: 600; margin-bottom: -45px;">Scroll to explore</div>
+            <div style="font-size: 32px; padding: 10px">⌄</div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <h2 class="section-title">About <span class="highlight">Us</span></h2>
+            <div class="section-divider"></div>
+
+            <div class="about-grid">
+                <div class="about-text">
+                    <p>Gajic Motorsport is dedicated to high-performance racing and motorsport excellence. Engineering precision, technical skill, and passion drive everything we do.</p>
+                    <p>Our team focuses on perfecting every detail, from car setup to track strategy, ensuring that both drivers and machines perform at their peak.</p>
+                    <p>With experience, discipline, and a love for racing, we constantly push boundaries and strive to improve with every project.</p>
+                </div>
+                <div class="about-image">
+                    <img src="Slike/slika59.jpg" alt="Racing">
+                </div>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3 class="feature-title">Precision Engineering</h3>
+                    <p class="feature-description">Every detail matters, from car setup to track strategy.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3 class="feature-title">Peak Performance</h3>
+                    <p class="feature-description">Ensuring drivers and machines perform at their absolute best.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🏆</div>
+                    <h3 class="feature-title">Racing Excellence</h3>
+                    <p class="feature-description">Constantly pushing boundaries with every project.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team">
+        <div class="container">
+            <h2 class="section-title">Our <span class="highlight">Team</span></h2>
+            <div class="section-divider"></div>
+            <p class="section-description">Meet the passionate professionals behind Gajic Motorsport</p>
+
+            <div class="team-grid">
+                <!-- Team Member 1 -->
+                <div class="team-card" onclick="openTeamModal(0)">
+                    <div class="team-card-image-wrapper">
+                        <img src="Slike/slika60.jpg" alt="Dario Gajić" class="team-card-image">
+                        <div class="team-card-overlay"></div>
+                    </div>
+                    <div class="team-card-info">
+                        <h3 class="team-card-name">Dario Gajić</h3>
+                        <p class="team-card-role">Driver</p>
+                    </div>
+                    <div class="team-card-plus">+</div>
+                </div>
+
+                <!-- Team Member 2 -->
+                <div class="team-card" onclick="openTeamModal(1)">
+                    <div class="team-card-image-wrapper">
+                        <img src="Slike/slika61.jpg" alt="Dragan Gajić" class="team-card-image">
+                        <div class="team-card-overlay"></div>
+                    </div>
+                    <div class="team-card-info">
+                        <h3 class="team-card-name">Dragan Gajić</h3>
+                        <p class="team-card-role">Driver</p>
+                    </div>
+                    <div class="team-card-plus">+</div>
+                </div>
+
+                <!-- Team Member 3 -->
+                <div class="team-card" onclick="openTeamModal(2)">
+                    <div class="team-card-image-wrapper">
+                        <img src="Slike/slika72.jpg" alt="Teo Horvat" class="team-card-image">
+                        <div class="team-card-overlay"></div>
+                    </div>
+                    <div class="team-card-info">
+                        <h3 class="team-card-name">Teo Horvat</h3>
+                        <p class="team-card-role">Mechanic</p>
+                    </div>
+                    <div class="team-card-plus">+</div>
+                </div>
+
+                <!-- Team Member 4 -->
+                <div class="team-card" onclick="openTeamModal(3)">
+                    <div class="team-card-image-wrapper">
+                        <img src="Slike/slika6.jpg" alt="Dijan Gajić" class="team-card-image">
+                        <div class="team-card-overlay"></div>
+                    </div>
+                    <div class="team-card-info">
+                        <h3 class="team-card-name">Dijan Gajić</h3>
+                        <p class="team-card-role">Mechanic</p>
+                    </div>
+                    <div class="team-card-plus">+</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Modal -->
+    <div class="modal-overlay" id="teamModal" onclick="closeTeamModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <img src="" alt="" class="modal-image" id="modalImage">
+            <button class="modal-close" onclick="closeTeamModal()">×</button>
+            <div class="modal-body">
+                <h2 class="modal-name" id="modalName"></h2>
+                <p class="modal-role" id="modalRole"></p>
+                <div class="modal-stats">
+                    <div>
+                        <p class="modal-stat-label">Age</p>
+                        <p class="modal-stat-value" id="modalAge"></p>
+                    </div>
+                    <div>
+                        <p class="modal-stat-label">Career Start</p>
+                        <p class="modal-stat-value" id="modalCareer"></p>
+                    </div>
+                </div>
+                <p class="modal-bio" id="modalBio"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cars Section -->
+    <section id="cars">
+        <div class="container">
+            <h2 class="section-title">Our <span class="highlight">Machines</span></h2>
+            <div class="section-divider"></div>
+            <p class="section-description">Built for speed, engineered for victory</p>
+
+            <div class="cars-grid">
+                <!-- Car 1: Opel Corsa HVR -->
+                <div class="car-card">
+                    <div class="car-image-wrapper">
+                        <img src="Slike/slika66.jpg" alt="Opel Corsa HVR" class="car-image">
+                        <div class="car-name-badge">
+                            <h3 class="car-name">Opel Corsa HVR</h3>
+                        </div>
+                    </div>
+                    <div class="car-specs">
+                        <h4 class="specs-title">
+                            <span style="color: var(--color-yellow);">⚙️</span>
+                            Technical Specifications
+                        </h4>
+                        <div class="specs-grid">
+                            <div class="spec-item">
+                                <div class="spec-label">Engine</div>
+                                <div class="spec-value">4 Cylinder 2.0 16v N/A</div>
+                            </div>
+                            <div class="spec-item">
+                                <div class="spec-label">Power</div>
+                                <div class="spec-value">270HP at 8500RPM</div>
+                                <div class="spec-value">260NM at 7000RPM</div>
+                            </div>
+                            <div class="spec-item">
+                                <div class="spec-label">Transmission</div>
+                                <div class="spec-value">6-Speed Dogbox Sequential</div>
+                            </div>
+                            <div class="spec-item">
+                                <div class="spec-label">Weight</div>
+                                <div class="spec-value">820KG</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Car 2: Coming Soon -->
+                <div class="car-card">
+                    <div class="car-image-wrapper">
+                        <div class="car-placeholder">
+                            <div style="font-size: 64px; margin-bottom: 16px;">🏎️</div>
+                            <p style="font-size: 24px; color: #6b7280; font-weight: 700;">More to come...</p>
+                        </div>
+                        <div class="car-name-badge">
+                            <h3 class="car-name">Coming Soon</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery">
+        <div class="container">
+            <h2 class="section-title"><span class="highlight">Gallery</span></h2>
+            <div class="section-divider"></div>
+            <p class="section-description">Capturing the intensity and passion of motorsport</p>
+
+            <div class="gallery-grid" id="galleryGrid">
+                <!-- Initial 9 images will be loaded here by JavaScript -->
+            </div>
+
+            <div class="btn-see-more" id="seeMoreBtn">
+                <button onclick="showAllGalleryImages()">See More (45 more images)</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Supporters Section --> 
+    <section id="supporters">
+        <div class="container">
+            <h2 class="section-title">
+                Sponsors & <span class="highlight">Supporters</span>
+            </h2>
+            <div class="section-divider"></div>
+
+            <div class="supporters-grid">
+
+                <a href="https://www.facebook.com/avtolicarstvoramsakaleksander/?locale=sl_SI" target="_blank">
+                    <img src="Slike/sponzor1.png" alt="Avtoličarstvo Ramsak" class="supporter-logo size-lg">
+                </a>
+
+                <a href="https://mattersdorfer.at/" target="_blank">
+                    <img src="Slike/sponzor2.png" alt="Mattersdorfer" class="supporter-logo size-md">
+                </a>
+
+                <a href="https://www.hapro.si" target="_blank">
+                    <img src="Slike/sponzor3.png" alt="Hapro" class="supporter-logo size-sm">
+                </a>
+
+                <a href="https://www.facebook.com/p/Crazy-pistons-garage-61557391256957/" target="_blank">
+                    <img src="Slike/sponzor4.png" alt="Crazy Pistons Garage" class="supporter-logo size-lg">
+                </a>
+
+                <a href="https://trgovina.intertehna.si/" target="_blank">
+                    <img src="Slike/sponzor5.png" alt="Intertehna" class="supporter-logo size-md">
+                </a>
+
+                <a href="https://www.instagram.com/enigmamotorsport/?hl=en" target="_blank">
+                    <img src="Slike/sponzor6.png" alt="Enigma Motorsport" class="supporter-logo size-xl">
+                </a>
+
+                <a href="https://nadstreski-meh.com/" target="_blank">
+                    <img src="Slike/sponzor7.png" alt="Nadstreški MEH" class="supporter-logo size-sm">
+                </a>
+
+                <a href="https://www.facebook.com/p/Racing-Solutions-Bla%C5%BE-Ku%C5%A1lan-sp-61566638203109/" target="_blank">
+                    <img src="Slike/sponzor8.png" alt="Racing Solutions" class="supporter-logo size-md">
+                </a>
+
+                <a href="https://www.facebook.com/pizzerianapostaji/?locale=sl_SI" target="_blank">
+                    <img src="Slike/sponzor9.png" alt="Pizzeria Na Postaji" class="supporter-logo size-sm">
+                </a>
+
+                <a href="https://www.facebook.com/p/Kam-plus-doo-100066718631915/" target="_blank">
+                    <img src="Slike/sponzor10.png" alt="KAM Plus" class="supporter-logo size-md">
+                </a>
+
+                <a href="https://www.facebook.com/p/David-Mezek-100004441773163/" target="_blank">
+                    <img src="Slike/sponzor11.png" alt="David Mežek" class="supporter-logo size-xs">
+                </a>
+
+                <a href="https://www.bizi.si/TERMIN-LOGISTIC-VELIBOR-RADOVANOVIC-S-P/" target="_blank">
+                    <img src="Slike/sponzor12.png" alt="Termin Logistic" class="supporter-logo size-lg">
+                </a>
+
+                <a href="https://www.bizi.si/MARKO-GOLUSKA-S-P/" target="_blank">
+                    <img src="Slike/sponzor13.png" alt="Marko Goluska" class="supporter-logo size-sm">
+                </a>
+
+                <a href="https://www.companywall.si/podjetje/bojan-karner-sp/MM6Tx0C" target="_blank">
+                    <img src="Slike/sponzor14.png" alt="Bojan Karner" class="supporter-logo size-xl">
+                </a>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+        <button class="lightbox-close" onclick="closeLightbox()">×</button>
+        <button class="lightbox-prev" onclick="event.stopPropagation(); prevLightboxImage()">‹</button>
+        <button class="lightbox-next" onclick="event.stopPropagation(); nextLightboxImage()">›</button>
+        <img src="" alt="" class="lightbox-image" id="lightboxImage" onclick="event.stopPropagation()">
+        <div class="lightbox-counter" id="lightboxCounter">1 / 54</div>
+    </div>
+
+    <!-- YouTube/Socials Section -->
+    <section id="youtube">
+        <div class="container">
+            <h2 class="section-title">Our <span class="highlight">YouTube</span> Channels</h2>
+            <div class="section-divider"></div>
+            <p class="section-description">Watch our latest races, track sessions, and motorsport content</p>
+
+            <div class="socials-grid">
+                <!-- Channel 1 -->
+                <div class="social-card">
+                    <div class="social-header">
+                        <a href="https://youtube.com/@gajic-corsa" target="_blank" rel="noopener noreferrer" class="social-link">
+                            <div class="social-icon">
+                                <svg width="32" height="32" fill="white" viewBox="0 0 24 24">
+                                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                                </svg>
+                            </div>
+                            <div class="social-info">
+                                <h3>Dario Gajić</h3>
+                                <p class="social-description">Follow Dario's racing journey and track sessions</p>
+                            </div>
+                        </a>
+                        <a href="https://youtube.com/@gajic-corsa" target="_blank" rel="noopener noreferrer" class="social-visit">
+                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                            </svg>
+                            Visit Channel
+                        </a>
+                    </div>
+                    <div class="social-video">
+                        <div class="video-container">
+                            <iframe 
+                                src="https://www.youtube.com/embed/z0IdvDRMVZ0?enablejsapi=1&origin=https://yourdomain.com" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Channel 2 -->
+                <div class="social-card">
+                    <div class="social-header">
+                        <a href="https://www.youtube.com/channel/UC5XClcLQnAZ3M31HIN6Oqsg" target="_blank" rel="noopener noreferrer" class="social-link">
+                            <div class="social-icon">
+                                <svg width="32" height="32" fill="white" viewBox="0 0 24 24">
+                                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                                </svg>
+                            </div>
+                            <div class="social-info">
+                                <h3>Dragan Gajić - Corsa HVR</h3>
+                                <p class="social-description">Corsa HVR content and racing highlights</p>
+                            </div>
+                        </a>
+                        <a href="https://www.youtube.com/channel/UC5XClcLQnAZ3M31HIN6Oqsg" target="_blank" rel="noopener noreferrer" class="social-visit">
+                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                            </svg>
+                            Visit Channel
+                        </a>
+                    </div>
+                    <div class="social-video">
+                        <div class="video-container">
+                            <iframe 
+                                src="https://www.youtube.com/embed/K2AGP5gSR64?enablejsapi=1&origin=https://yourdomain.com" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="container">
+            <h2 class="section-title">Get In <span class="highlight">Touch</span></h2>
+            <div class="section-divider"></div>
+            <p class="section-description">Ready to discuss your motorsport journey? Contact us today!</p>
+
+            <div class="contact-grid">
+                <div class="contact-form">
+                    <form onsubmit="handleContactSubmit(event)">
+                        <div class="form-group">
+                            <label class="form-label">Your Name</label>
+                            <input type="text" class="form-input" placeholder="John Doe" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email Address</label>
+                            <input type="email" class="form-input" placeholder="john@example.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Message</label>
+                            <textarea class="form-textarea" placeholder="Tell us about your project..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn-submit" id="submitBtn">
+                            Send Message
+                            <span>✉</span>
+                        </button>
+                    </form>
+                </div>
+
+                <div class="contact-info-grid">
+                    <a href="mailto:dario@gajic-motorsport.com" class="contact-item">
+                        <div class="contact-icon">✉</div>
+                        <div>
+                            <h3>Email</h3>
+                            <p>dario@gajic-motorsport.com</p>
+                        </div>
+                    </a>
+                    <a href="tel:+38641431543" class="contact-item">
+                        <div class="contact-icon">📞</div>
+                        <div>
+                            <h3>Phone(SI)</h3>
+                            <p>+386 41 431 543</p>
+                        </div>
+                    </a>
+                    <a href="tel:+436645335364" class="contact-item">
+                        <div class="contact-icon">📞</div>
+                        <div>
+                            <h3>Phone (AT)</h3>
+                            <p>+43 664 5335364</p>
+                        </div>
+                    </a>
+                    <a href="https://maps.google.com/?q=Selovec+80,+Šentjanž+pri+Dravogradu+2373+Slovenia" target="_blank" rel="noopener noreferrer" class="contact-item">
+                        <div class="contact-icon">📍</div>
+                        <div>
+                            <h3>Location</h3>
+                            <p>Selovec 80, Šentjanž pri Dravogradu 2373 Slovenia</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>© 2026 Gajic Motorsport. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Team Members Data
+        const teamMembers = [
+            {
+                name: 'Dario Gajić',
+                role: 'Driver',
+                image: 'Slike/slika60.jpg',
+                age: 17,
+                career: '2024',
+                bio: 'Dario started racing at 15 and quickly mastered car control and racecraft. Ambitious and focused, he constantly improves his lines and setups.'
+            },
+            {
+                name: 'Dragan Gajić',
+                role: 'Driver',
+                image: 'Slike/slika61.jpg',
+                age: 47,
+                career: '2002',
+                bio: 'Dragan is precise and experienced, able to read the track and adapt fast. Excels at mentoring and optimizing car performance.'
+            },
+            {
+                name: 'Teo Horvat',
+                role: 'Mechanic',
+                image: 'Slike/slika72.jpg',
+                imageClass: 'positionTop',
+                age: 53,
+                career: '1998',
+                bio: 'Teo is the lead mechanic with decades of experience. He is known for building multiple championship winning racing cars. His hands-on skills and attention to detail keep the cars performing at their best.'
+            },
+            {
+                name: 'Dijan Gajić',
+                role: 'Mechanic',
+                image: 'Slike/slika6.jpg',
+                imageClass: 'positionTop',
+                age: 12,
+                career: '2023',
+                bio: 'Dijan is a quick-learning young mechanic, curious and eager. His enthusiasm and technical intuition make him a rising talent.'
+            }
+        ];
+        
+
+        // Gallery Images (54 images)
+        const galleryImages = [];
+        for (let i = 1; i <= 54; i++) {
+            galleryImages.push(`Slike/slika${i}.jpg`);
+        }
+
+        let showAllGallery = false;
+        let currentLightboxIndex = 0;
+
+        // Initialize Gallery
+        function initGallery() {
+            const galleryGrid = document.getElementById('galleryGrid');
+            const imagesToShow = showAllGallery ? galleryImages : galleryImages.slice(0, 9);
+            
+            galleryGrid.innerHTML = '';
+            imagesToShow.forEach((image, index) => {
+                const item = document.createElement('div');
+                item.className = 'gallery-item';
+                item.onclick = () => openLightbox(galleryImages.indexOf(image));
+                
+                item.innerHTML = `
+                    <img src="${image}" alt="Gallery ${index + 1}">
+                    <div class="gallery-item-overlay">
+                        <div class="gallery-plus">+</div>
+                    </div>
+                `;
+                
+                galleryGrid.appendChild(item);
+            });
+
+            // Show/hide "See More" button
+            const seeMoreBtn = document.getElementById('seeMoreBtn');
+            if (showAllGallery) {
+                seeMoreBtn.style.display = 'none';
+            } else {
+                seeMoreBtn.style.display = 'block';
+            }
+        }
+
+        function showAllGalleryImages() {
+            showAllGallery = true;
+            initGallery();
+        }
+
+        // Lightbox Functions
+        function openLightbox(index) {
+            currentLightboxIndex = index;
+            updateLightbox();
+            document.getElementById('lightbox').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function nextLightboxImage() {
+            currentLightboxIndex = (currentLightboxIndex + 1) % galleryImages.length;
+            updateLightbox();
+        }
+
+        function prevLightboxImage() {
+            currentLightboxIndex = (currentLightboxIndex - 1 + galleryImages.length) % galleryImages.length;
+            updateLightbox();
+        }
+
+        function updateLightbox() {
+            document.getElementById('lightboxImage').src = galleryImages[currentLightboxIndex];
+            document.getElementById('lightboxCounter').textContent = `${currentLightboxIndex + 1} / ${galleryImages.length}`;
+        }
+
+        // Keyboard Navigation for Lightbox
+        document.addEventListener('keydown', (e) => {
+            const lightbox = document.getElementById('lightbox');
+            if (lightbox.classList.contains('active')) {
+                if (e.key === 'ArrowLeft') prevLightboxImage();
+                if (e.key === 'ArrowRight') nextLightboxImage();
+                if (e.key === 'Escape') closeLightbox();
+            }
+        });
+
+        // Team Modal Functions
+        function openTeamModal(index) {
+            const member = teamMembers[index];
+            document.getElementById('modalImage').src = member.image;
+            document.getElementById('modalImage').alt = member.name;
+            document.getElementById('modalName').textContent = member.name;
+            document.getElementById('modalRole').textContent = member.role;
+            document.getElementById('modalAge').textContent = member.age;
+            document.getElementById('modalCareer').textContent = member.career;
+            document.getElementById('modalBio').textContent = member.bio;
+            
+            document.getElementById('teamModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeTeamModal() {
+            document.getElementById('teamModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const mobileNav = document.getElementById('mobileNav');
+            mobileNav.classList.toggle('active');
+        }
+
+        // Scroll Functions
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+                // Close mobile menu if open
+                document.getElementById('mobileNav').classList.remove('active');
+            }
+        }
+
+        // Header Scroll Effect
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+
+            // Update active nav link
+            updateActiveNavLink();
+        });
+
+        // Update Active Navigation Link
+        function updateActiveNavLink() {
+            const sections = ['home', 'about', 'team', 'cars', 'gallery', 'youtube', 'contact'];
+            let current = '';
+
+            sections.forEach(sectionId => {
+                const section = document.getElementById(sectionId);
+                if (section) {
+                    const rect = section.getBoundingClientRect();
+                    if (rect.top <= 100 && rect.bottom >= 100) {
+                        current = sectionId;
+                    }
+                }
+            });
+
+            // Update desktop nav
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+
+            // Update mobile nav
+            document.querySelectorAll('.mobile-nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // Hero/Global Background Image Slider
+        let currentHeroIndex = 0;
+        const heroImages = document.querySelectorAll('.global-bg-image');
+        const indicators = document.querySelectorAll('.indicator');
+
+        function changeHeroImage(index) {
+            heroImages[currentHeroIndex].classList.remove('active');
+            indicators[currentHeroIndex].classList.remove('active');
+            currentHeroIndex = index;
+            heroImages[currentHeroIndex].classList.add('active');
+            indicators[currentHeroIndex].classList.add('active');
+        }
+
+        // Auto-rotate hero/background images
+        setInterval(() => {
+            const nextIndex = (currentHeroIndex + 1) % heroImages.length;
+            changeHeroImage(nextIndex);
+        }, 5000);
+
+        // Contact Form Submit
+        function handleContactSubmit(event) {
+            event.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            btn.textContent = 'Message Sent!';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                btn.innerHTML = 'Send Message <span>✉</span>';
+                btn.disabled = false;
+                event.target.reset();
+            }, 3000);
+        }
+
+        // Initialize on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            initGallery();
+            updateActiveNavLink();
+        });
+    </script>
+</body>
+</html>
